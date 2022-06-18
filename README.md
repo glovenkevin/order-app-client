@@ -14,3 +14,9 @@ A few resources to get you started if this is your first Flutter project:
 For help getting started with Flutter development, view the
 [online documentation](https://docs.flutter.dev/), which offers tutorials,
 samples, guidance on mobile development, and a full API reference.
+
+## Project Setup 
+
+1. Prepare android emulator
+2. Prepare firebase project and set it up with the firebase key
+3. Make sure `firebase_options.dart` exist in /lib folder

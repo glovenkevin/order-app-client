@@ -1,7 +1,7 @@
 import 'package:dio/dio.dart';
 import 'package:firebase_remote_config/firebase_remote_config.dart';
-
-import '../dependency_injection/injection.dart';
+import 'package:order_app_client/infrastructure/dependency_injection/injection.dart';
+import 'package:pretty_dio_logger/pretty_dio_logger.dart';
 
 class API {
   static Dio dio() {
@@ -9,8 +9,7 @@ class API {
     var baseUrl = remoteConfig.getString('base_url');
 
     BaseOptions options = BaseOptions(
-      connectTimeout: 10000,
-      receiveTimeout: 5000,
+      connectTimeout: 1000,
       baseUrl: baseUrl,
       headers: {
         "Accept": "application/json",
@@ -20,7 +19,8 @@ class API {
     );
 
     var dio = Dio(options);
-    dio.interceptors.add(LogInterceptor(responseBody: true));
+    dio.interceptors.add(PrettyDioLogger(
+        requestBody: true, responseBody: true, error: true, compact: true));
     return dio;
   }
 }

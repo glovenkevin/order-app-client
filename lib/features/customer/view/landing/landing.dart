@@ -65,7 +65,7 @@ class LandingPage extends StatelessWidget {
                         shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(15))),
                     onPressed: () {
-                      EasyLoading.showInfo("Still not implemented");
+                      Navigator.pushNamed(context, '/register');
                     },
                     child: Row(
                         mainAxisAlignment: MainAxisAlignment.center,

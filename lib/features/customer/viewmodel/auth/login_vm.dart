@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:order_app_client/features/customer/domain/usecase/auth.dart';
+import 'package:order_app_client/features/customer/domain/usecase/login.dart';
 import 'package:order_app_client/infrastructure/dependency_injection/injection.dart';
 
 class LoginViewModel extends ChangeNotifier {
-  AuthUsecase usecase = getIt<AuthUsecase>();
+  LoginUseCase usecase = getIt<LoginUseCase>();
 
   String _email = "";
   String _password = "";

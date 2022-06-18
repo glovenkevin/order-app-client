@@ -2,11 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:order_app_client/features/customer/view/landing/landing.dart';
 import 'package:order_app_client/features/customer/view/routes.dart';
+import 'package:order_app_client/features/customer/viewmodel/vm_providers.dart';
 import 'package:order_app_client/infrastructure/dependency_injection/injection.dart';
 import 'package:order_app_client/infrastructure/easyoading/easyloading.dart';
 import 'package:provider/provider.dart';
-
-import 'features/customer/viewmodel/login/login_vm.dart';
 
 Future main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -27,13 +26,9 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MultiProvider(
-      providers: [
-        ChangeNotifierProvider<LoginViewModel>(
-          create: (_) => LoginViewModel(),
-        ),
-      ],
+      providers: ViewModelProviders.getProviders(),
       child: MaterialApp(
-        title: 'Order App',
+        title: 'Order App Client',
         theme: ThemeData(
           primarySwatch: Colors.blue,
           fontFamily: 'OpenSans',

@@ -1,9 +1,9 @@
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:order_app_client/features/customer/resources/color/base_color.dart';
+import 'package:order_app_client/features/customer/viewmodel/auth/login_vm.dart';
 import 'package:provider/provider.dart';
-
-import '../../viewmodel/login/login_vm.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({Key? key}) : super(key: key);
@@ -21,13 +21,21 @@ class LoginPageState extends State<LoginPage> {
   @override
   Widget build(BuildContext context) {
     final vm = Provider.of<LoginViewModel>(context);
+    final args = ModalRoute.of(context) == null
+        ? <String, dynamic>{}
+        : ModalRoute.of(context)!.settings.arguments as Map<String, dynamic>;
 
     return Scaffold(
+      appBar: AppBar(
+        elevation: 0,
+        backgroundColor: Colors.transparent,
+        automaticallyImplyLeading: false,
+      ),
       body: SingleChildScrollView(
-          padding: const EdgeInsets.only(top: 70, left: 35, right: 35),
+          padding: const EdgeInsets.only(top: 0, left: 35, right: 35),
           child: Form(
             key: vm.formState,
-            autovalidateMode: AutovalidateMode.always,
+            autovalidateMode: AutovalidateMode.onUserInteraction,
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
@@ -36,7 +44,7 @@ class LoginPageState extends State<LoginPage> {
                   children: [
                     IconButton(
                       onPressed: () {
-                        Navigator.pop(context);
+                        Navigator.popAndPushNamed(context, "/");
                       },
                       icon: const Icon(
                         Icons.arrow_back,
@@ -76,14 +84,12 @@ class LoginPageState extends State<LoginPage> {
                         ),
                       ],
                     ),
-                    const SizedBox(height: 40),
-                    const Text(
-                      'Login',
-                      style: TextStyle(
-                        fontSize: 24,
-                        color: Colors.white,
-                      ),
+                    const Divider(
+                      color: AppDefaultColor.defaultYellow,
+                      thickness: 5,
+                      endIndent: 280,
                     ),
+                    const SizedBox(height: 25),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.start,
                       children: const [
@@ -101,8 +107,10 @@ class LoginPageState extends State<LoginPage> {
                         hintText: 'Enter your email',
                         hintStyle: TextStyle(color: Colors.black, fontSize: 14),
                       ),
+                      maxLength: 30,
                       onChanged: (value) => vm.setEmail(value),
                       validator: (value) => vm.isValidEmail(value),
+                      initialValue: args['email'] ?? "",
                     ),
                     const SizedBox(height: 15),
                     Row(
@@ -125,12 +133,42 @@ class LoginPageState extends State<LoginPage> {
                         hintText: 'Enter your password',
                         hintStyle: TextStyle(color: Colors.black, fontSize: 14),
                       ),
+                      maxLength: 20,
                       onChanged: (value) => vm.setPassword(value),
                       validator: (value) => vm.isValidPassword(value),
                     ),
+                    const SizedBox(height: 15),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      children: [
+                        RichText(
+                          text: TextSpan(children: [
+                            const TextSpan(
+                              text: 'Did not have an account?',
+                              style: TextStyle(
+                                color: Colors.black87,
+                                fontSize: 12,
+                              ),
+                            ),
+                            TextSpan(
+                              text: " Sign Up",
+                              style: const TextStyle(
+                                color: AppDefaultColor.defaultYellow,
+                                fontSize: 12,
+                                fontWeight: FontWeight.bold,
+                              ),
+                              recognizer: TapGestureRecognizer()
+                                ..onTap = () {
+                                  Navigator.pushNamed(context, "/register");
+                                },
+                            )
+                          ]),
+                        ),
+                      ],
+                    ),
                   ]),
                 ),
-                const SizedBox(height: 50),
+                const SizedBox(height: 40),
                 SizedBox(
                   width: double.infinity,
                   height: 50,
@@ -159,7 +197,7 @@ class LoginPageState extends State<LoginPage> {
                                 vm.setIsLoading(false)
                               });
                     },
-                    child: const Text('Login', style: TextStyle(fontSize: 14)),
+                    child: const Text('Login', style: TextStyle(fontSize: 16)),
                   ),
                 ),
               ],
