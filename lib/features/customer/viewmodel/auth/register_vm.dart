@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:order_app_client/features/customer/data/response/response.dart';
 import 'package:order_app_client/features/customer/domain/usecase/register.dart';
 import 'package:order_app_client/infrastructure/dependency_injection/injection.dart';
 
@@ -96,7 +95,7 @@ class RegisterViewModel extends ChangeNotifier {
     return null;
   }
 
-  Future<bool> register() async {
+  Future<bool> register() {
     setIsLoading(true);
     return useCase.register(
       email: _email,

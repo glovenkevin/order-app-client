@@ -225,13 +225,13 @@ class RegisterPageState extends State<RegisterPage> {
                           shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(15))),
                       onPressed: () {
-                        if (vm.isLoading) return;
-                        EasyLoading.show(status: 'Registering...');
-
                         if (!vm.formState.currentState!.validate()) {
                           EasyLoading.showError('Parameter is invalid');
                           return;
                         }
+
+                        if (vm.isLoading) return;
+                        EasyLoading.show(status: 'Registering...');
 
                         vm
                             .register()

@@ -21,9 +21,11 @@ class LoginPageState extends State<LoginPage> {
   @override
   Widget build(BuildContext context) {
     final vm = Provider.of<LoginViewModel>(context);
-    final args = ModalRoute.of(context) == null
-        ? <String, dynamic>{}
-        : ModalRoute.of(context)!.settings.arguments as Map<String, dynamic>;
+    final routeArgs = ModalRoute.of(context)?.settings.arguments;
+    var args = <String, dynamic>{};
+    if (routeArgs != null) {
+      args = routeArgs as Map<String, dynamic>;
+    }
 
     return Scaffold(
       appBar: AppBar(
@@ -159,7 +161,7 @@ class LoginPageState extends State<LoginPage> {
                               ),
                               recognizer: TapGestureRecognizer()
                                 ..onTap = () {
-                                  Navigator.pushNamed(context, "/register");
+                                  Navigator.pushNamed(context, '/register');
                                 },
                             )
                           ]),
@@ -179,18 +181,22 @@ class LoginPageState extends State<LoginPage> {
                         shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(15))),
                     onPressed: () {
-                      if (vm.isLoading) return;
-                      EasyLoading.show(status: 'Logging in...');
-
                       if (!vm.formState.currentState!.validate()) {
                         EasyLoading.showError('Parameter is invalid');
                         return;
                       }
+
+                      if (vm.isLoading) return;
+                      EasyLoading.show(status: 'Logging in...');
+
                       vm
                           .doLogin()
                           .then((value) => {
                                 EasyLoading.showSuccess('Login success'),
-                                vm.setIsLoading(false)
+                                vm.setIsLoading(false),
+                                Future.delayed(const Duration(seconds: 1), () {
+                                  Navigator.popAndPushNamed(context, '/main');
+                                })
                               })
                           .catchError((error) => {
                                 EasyLoading.showError(error),

@@ -23,13 +23,13 @@ class AuthRepositoryImpl extends AuthRepository with ChangeNotifier {
       return BaseResponse(
           statusCode: e.response?.statusCode ?? HttpConstant.BAD_REQUEST,
           status: e.response?.statusMessage ?? 'Internal Server Error',
-          message: e.response?.data['message'] ?? 'Internal Server Error');
+          message: e.response?.data['message'] ?? 'Fail to login');
     } on Exception catch (e) {
       log("$tracestr - Error: ${e.toString()}");
       return BaseResponse(
           statusCode: HttpConstant.INTERNAL_SERVER_ERROR,
           status: HttpConstant.internalServerError,
-          message: HttpConstant.internalServerError);
+          message: 'Fail to login');
     }
   }
 
@@ -37,7 +37,7 @@ class AuthRepositoryImpl extends AuthRepository with ChangeNotifier {
   Future<BaseResponse> register(RegisterRequest req) async {
     String tracestr = 'AuthRepositoryImpl.register';
     try {
-      final resp = await API.dio().post('/auth/register', data: req.toJson());
+      final resp = await API.dio().put('/auth/register', data: req.toJson());
       BaseResponse response = BaseResponse.fromJson(resp.data);
       response.statusCode = resp.statusCode;
       return response;

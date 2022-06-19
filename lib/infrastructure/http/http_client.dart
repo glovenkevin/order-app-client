@@ -8,6 +8,14 @@ class API {
     var remoteConfig = getIt<FirebaseRemoteConfig>();
     var baseUrl = remoteConfig.getString('base_url');
 
+    String env = const String.fromEnvironment('ENV', defaultValue: "PROD");
+    if (env.isNotEmpty && env == 'DEV') {
+      baseUrl = 'http://10.0.2.2:8000/api/v1';
+    }
+    if (env.isNotEmpty && env == 'STAGING') {
+      baseUrl = remoteConfig.getString('base_url_staging');
+    }
+
     BaseOptions options = BaseOptions(
       connectTimeout: 1000,
       baseUrl: baseUrl,

@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:order_app_client/features/customer/resources/color/base_color.dart';
 
 class LandingPage extends StatelessWidget {
