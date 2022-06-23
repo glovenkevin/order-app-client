@@ -14,10 +14,17 @@ class HomeTab extends StatefulWidget {
 
 class HomeTabState extends State<HomeTab> {
   static const ValueKey homeAppBarKey = ValueKey('homeAppBarKey');
+  late TabHomeViewModel vm;
+
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((_) => vm.retrieveMenues());
+  }
 
   @override
   Widget build(BuildContext context) {
-    TabHomeViewModel vm = Provider.of<TabHomeViewModel>(context);
+    vm = Provider.of<TabHomeViewModel>(context);
     final CarouselController carouselController = CarouselController();
     const double fontSizeJudul = 24;
     const double fontSizeJudulDeskripsi = 14;
@@ -90,52 +97,56 @@ class HomeTabState extends State<HomeTab> {
                     }).toList(),
                   ),
                   const SizedBox(height: 10),
-                  const Text('Menu',
-                      style: TextStyle(
-                          fontSize: fontSizeJudul,
-                          fontWeight: FontWeight.w800,
-                          color: AppDefaultColor.defaultBrown)),
-                  const Text("Checkout our new menu,",
-                      style: TextStyle(
-                          fontSize: fontSizeDeskripsi,
-                          color: AppDefaultColor.defaultGrey)),
-                  const SizedBox(height: 10),
-                  GridView.count(
-                    shrinkWrap: true,
-                    crossAxisCount: 2,
-                    children: [
-                      ...vm.menus.map((menu) {
-                        return Card(
-                            elevation: 5,
-                            child: Container(
-                              padding: const EdgeInsets.only(
-                                  top: 15, left: 10, right: 10),
-                              child: Column(
-                                children: [
-                                  ClipRRect(
-                                    borderRadius: BorderRadius.circular(10),
-                                    child: Image.network(
-                                      menu.imageUrl,
-                                      width: 100,
+                  if (vm.menus.isNotEmpty) ...[
+                    const Text('Menu',
+                        style: TextStyle(
+                            fontSize: fontSizeJudul,
+                            fontWeight: FontWeight.w800,
+                            color: AppDefaultColor.defaultBrown)),
+                    const Text("Checkout our new menu,",
+                        style: TextStyle(
+                            fontSize: fontSizeDeskripsi,
+                            color: AppDefaultColor.defaultGrey)),
+                    const SizedBox(height: 10),
+                    GridView.count(
+                      shrinkWrap: true,
+                      crossAxisCount: 2,
+                      children: [
+                        ...vm.menus.map((menu) {
+                          return Card(
+                              elevation: 5,
+                              child: Container(
+                                padding: const EdgeInsets.only(
+                                    top: 15, left: 10, right: 10),
+                                child: Column(
+                                  children: [
+                                    ClipRRect(
+                                      borderRadius: BorderRadius.circular(10),
+                                      child: Image.network(
+                                        menu.imageUrl,
+                                        width: 100,
+                                      ),
                                     ),
-                                  ),
-                                  const SizedBox(height: 5),
-                                  Text(menu.name,
-                                      textAlign: TextAlign.center,
-                                      style: const TextStyle(
-                                          fontSize: fontSizeJudulDeskripsi,
-                                          color: Colors.black87)),
-                                  Text(menu.description,
-                                      textAlign: TextAlign.center,
-                                      style: const TextStyle(
-                                          fontSize: fontSizeDeskripsi,
-                                          color: AppDefaultColor.defaultGrey)),
-                                ],
-                              ),
-                            ));
-                      }).toList(),
-                    ],
-                  ),
+                                    const SizedBox(height: 5),
+                                    Text(menu.name,
+                                        textAlign: TextAlign.center,
+                                        style: const TextStyle(
+                                            fontSize: fontSizeJudulDeskripsi,
+                                            color: Colors.black87)),
+                                    Text(menu.description,
+                                        textAlign: TextAlign.center,
+                                        style: const TextStyle(
+                                            fontSize: fontSizeDeskripsi,
+                                            color:
+                                                AppDefaultColor.defaultGrey)),
+                                  ],
+                                ),
+                              ));
+                        }).toList(),
+                      ],
+                    ),
+                    const SizedBox(height: 15)
+                  ]
                 ],
               ),
             )));

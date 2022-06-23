@@ -2,10 +2,9 @@ class Menu {
   String id;
   String name;
   double price;
+  int stock;
   String description;
   String imageUrl;
-  String createdAt;
-  String? updatedAt;
 
   Menu({
     required this.id,
@@ -13,19 +12,17 @@ class Menu {
     required this.price,
     required this.description,
     required this.imageUrl,
-    required this.createdAt,
-    this.updatedAt,
+    required this.stock,
   });
 
   factory Menu.fromJson(Map<String, dynamic> json) {
     return Menu(
       id: json['id'],
       name: json['name'],
-      price: json['price'],
+      price: json['price'].toDouble(),
       description: json['description'],
       imageUrl: json['image_url'],
-      createdAt: json['createdat'],
-      updatedAt: json['updatedat'],
+      stock: json['stock'].toInt(),
     );
   }
 }
