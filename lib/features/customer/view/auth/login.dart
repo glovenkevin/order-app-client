@@ -25,6 +25,9 @@ class LoginPageState extends State<LoginPage> {
     var args = <String, dynamic>{};
     if (routeArgs != null) {
       args = routeArgs as Map<String, dynamic>;
+      if (args['email'] != "") {
+        vm.setEmail(args['email']);
+      }
     }
 
     return Scaffold(

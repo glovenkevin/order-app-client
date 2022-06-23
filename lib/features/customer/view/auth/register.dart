@@ -135,7 +135,7 @@ class RegisterPageState extends State<RegisterPage> {
                           ),
                           maxLength: 20,
                           onChanged: (value) => vm.setPassword(value),
-                          validator: (value) => vm.isEmpty(value),
+                          validator: (value) => vm.isValidPassword(value),
                         ),
                         const SizedBox(height: 20),
                         Row(

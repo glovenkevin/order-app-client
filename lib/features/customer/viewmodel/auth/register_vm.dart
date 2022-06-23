@@ -89,6 +89,9 @@ class RegisterViewModel extends ChangeNotifier {
     if (confirmPassword == null || confirmPassword.isEmpty) {
       return "This field is required";
     }
+    if (confirmPassword.length < 8) {
+      return "Password must be at least 8 characters";
+    }
     if (confirmPassword != _password) {
       return "Password does not match";
     }
