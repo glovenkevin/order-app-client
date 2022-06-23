@@ -1,7 +1,6 @@
 import 'dart:developer';
 
 import 'package:dio/dio.dart';
-import 'package:flutter/material.dart';
 import 'package:order_app_client/features/customer/data/request/login_request.dart';
 import 'package:order_app_client/features/customer/data/request/register_request.dart';
 import 'package:order_app_client/features/customer/data/response/response.dart';
@@ -9,7 +8,7 @@ import 'package:order_app_client/features/customer/domain/repository/auth_repo.d
 import 'package:order_app_client/infrastructure/http/constant.dart';
 import 'package:order_app_client/infrastructure/http/http_client.dart';
 
-class AuthRepositoryImpl extends AuthRepository with ChangeNotifier {
+class AuthRepositoryImpl extends AuthRepository {
   @override
   Future<BaseResponse> login(LoginRequest req) async {
     String tracestr = 'AuthRepositoryImpl.login';

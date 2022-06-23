@@ -3,7 +3,7 @@ import 'package:order_app_client/features/customer/domain/usecase/login.dart';
 import 'package:order_app_client/infrastructure/dependency_injection/injection.dart';
 
 class LoginViewModel extends ChangeNotifier {
-  LoginUseCase usecase = getIt<LoginUseCase>();
+  final LoginUseCase _useCase = getIt<LoginUseCase>();
 
   String _email = "";
   String _password = "";
@@ -66,6 +66,6 @@ class LoginViewModel extends ChangeNotifier {
 
   Future<bool> doLogin() {
     setIsLoading(true);
-    return usecase.doLogin(email, password);
+    return _useCase.doLogin(email, password);
   }
 }

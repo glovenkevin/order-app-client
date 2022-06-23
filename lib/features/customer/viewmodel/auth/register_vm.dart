@@ -3,7 +3,7 @@ import 'package:order_app_client/features/customer/domain/usecase/register.dart'
 import 'package:order_app_client/infrastructure/dependency_injection/injection.dart';
 
 class RegisterViewModel extends ChangeNotifier {
-  RegisterUseCase useCase = getIt<RegisterUseCase>();
+  final RegisterUseCase _useCase = getIt<RegisterUseCase>();
 
   GlobalKey<FormState> _formState = GlobalKey<FormState>();
   String _email = "";
@@ -100,7 +100,7 @@ class RegisterViewModel extends ChangeNotifier {
 
   Future<bool> register() {
     setIsLoading(true);
-    return useCase.register(
+    return _useCase.register(
       email: _email,
       password: _password,
       name: _name,
