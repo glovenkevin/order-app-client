@@ -1,5 +1,6 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:order_app_client/component/custom_app_bar_main.dart';
 import 'package:order_app_client/features/customer/resources/color/base_color.dart';
 import 'package:order_app_client/features/customer/viewmodel/main/tab_home_vm.dart';
@@ -114,8 +115,13 @@ class HomeTabState extends State<HomeTab> {
                       children: [
                         ...vm.menus.map((menu) {
                           return Card(
-                              elevation: 5,
-                              child: Container(
+                            elevation: 5,
+                            child: InkWell(
+                              splashColor: AppDefaultColor.defaultBlue,
+                              onTap: () {
+                                EasyLoading.showInfo("Not Implemented");
+                              },
+                              child: Padding(
                                 padding: const EdgeInsets.only(
                                     top: 15, left: 10, right: 10),
                                 child: Column(
@@ -141,7 +147,9 @@ class HomeTabState extends State<HomeTab> {
                                                 AppDefaultColor.defaultGrey)),
                                   ],
                                 ),
-                              ));
+                              ),
+                            ),
+                          );
                         }).toList(),
                       ],
                     ),

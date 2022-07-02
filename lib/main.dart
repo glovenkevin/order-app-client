@@ -16,13 +16,12 @@ Future main() async {
   // Setup easy loading
   configEasyLoading();
 
-  runApp(const MyApp());
+  runApp(const MyClientApp());
 }
 
-class MyApp extends StatelessWidget {
-  const MyApp({Key? key}) : super(key: key);
+class MyClientApp extends StatelessWidget {
+  const MyClientApp({Key? key}) : super(key: key);
 
-  // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
     return MultiProvider(
