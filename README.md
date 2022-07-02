@@ -1,6 +1,7 @@
-# order_app_client
+# Order App Client
 
-A new Flutter project.
+This is a Flutter Project generated from default flutter create project. 
+This Project aimed to be the client side of the Order App which will be used by user. 
 
 ## Getting Started
 
