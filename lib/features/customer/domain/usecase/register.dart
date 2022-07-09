@@ -2,7 +2,7 @@ import 'dart:developer';
 
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:order_app_client/features/customer/data/request/register_request.dart';
-import 'package:order_app_client/features/customer/data/response/response.dart';
+import 'package:order_app_client/features/customer/data/response/base_response.dart';
 import 'package:order_app_client/features/customer/domain/repository/auth_repo.dart';
 import 'package:order_app_client/infrastructure/dependency_injection/injection.dart';
 import 'package:order_app_client/infrastructure/http/constant.dart';
