@@ -1,6 +1,7 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:order_app_client/component/custom_app_bar_main.dart';
+import 'package:order_app_client/component/error_load_image.dart';
 import 'package:order_app_client/features/customer/domain/entity/menu.dart';
 import 'package:order_app_client/features/customer/resources/color/base_color.dart';
 import 'package:order_app_client/features/customer/view/main/component/menu_bottom_modal.dart';
@@ -123,8 +124,7 @@ class HomeTabState extends State<HomeTab> {
                                 _showBottomModalMenu(context, menu);
                               },
                               child: Padding(
-                                padding: const EdgeInsets.only(
-                                    top: 10, left: 10, right: 10, bottom: 5),
+                                padding: const EdgeInsets.all(10),
                                 child: Column(
                                   mainAxisAlignment: MainAxisAlignment.center,
                                   children: [
@@ -138,8 +138,8 @@ class HomeTabState extends State<HomeTab> {
                                           errorBuilder: (BuildContext context,
                                               Object exception,
                                               StackTrace? stackTrace) {
-                                            return const Text(
-                                                "Failed to load Image");
+                                            return ErrorLoadImage(
+                                                ex: exception);
                                           },
                                         ),
                                       ),
