@@ -1,7 +1,7 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:order_app_client/component/custom_app_bar_main.dart';
+import 'package:order_app_client/features/customer/domain/entity/menu.dart';
 import 'package:order_app_client/features/customer/resources/color/base_color.dart';
 import 'package:order_app_client/features/customer/viewmodel/main/tab_home_vm.dart';
 import 'package:provider/provider.dart';
@@ -94,7 +94,7 @@ class HomeTabState extends State<HomeTab> {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: vm.images.asMap().entries.map((entry) {
-                      return bannerDots(context, vm.bannerIndex, entry);
+                      return _bannerDots(context, vm.bannerIndex, entry);
                     }).toList(),
                   ),
                   const SizedBox(height: 10),
@@ -119,18 +119,28 @@ class HomeTabState extends State<HomeTab> {
                             child: InkWell(
                               splashColor: AppDefaultColor.defaultBlue,
                               onTap: () {
-                                EasyLoading.showInfo("Not Implemented");
+                                _showBottomModalMenu(context, menu);
                               },
                               child: Padding(
                                 padding: const EdgeInsets.only(
-                                    top: 15, left: 10, right: 10),
+                                    top: 10, left: 10, right: 10, bottom: 5),
                                 child: Column(
+                                  mainAxisAlignment: MainAxisAlignment.center,
                                   children: [
-                                    ClipRRect(
-                                      borderRadius: BorderRadius.circular(10),
-                                      child: Image.network(
-                                        menu.imageUrl,
-                                        width: 100,
+                                    Flexible(
+                                      flex: 1,
+                                      child: ClipRRect(
+                                        borderRadius: BorderRadius.circular(10),
+                                        child: Image.network(
+                                          menu.imageUrl,
+                                          width: 80,
+                                          errorBuilder: (BuildContext context,
+                                              Object exception,
+                                              StackTrace? stackTrace) {
+                                            return const Text(
+                                                "Failed to load Image");
+                                          },
+                                        ),
                                       ),
                                     ),
                                     const SizedBox(height: 5),
@@ -160,7 +170,7 @@ class HomeTabState extends State<HomeTab> {
             )));
   }
 
-  Container bannerDots(
+  Container _bannerDots(
       BuildContext context, int activeBanner, MapEntry<int, String> entry) {
     return Container(
       width: 12.0,
@@ -173,5 +183,97 @@ class HomeTabState extends State<HomeTab> {
                   : Colors.black)
               .withOpacity(activeBanner == entry.key ? 0.9 : 0.4)),
     );
+  }
+
+  void _showBottomModalMenu(BuildContext context, Menu menu) {
+    showModalBottomSheet(
+        context: context,
+        builder: (BuildContext context) {
+          var qty = vm.carts[menu.id];
+
+          return Container(
+            padding: const EdgeInsets.all(10),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(menu.name,
+                    style: const TextStyle(
+                      fontSize: 18,
+                      fontWeight: FontWeight.bold,
+                    )),
+                const SizedBox(height: 5),
+                Text(
+                  menu.description,
+                  style: const TextStyle(
+                    fontSize: 12,
+                    color: AppDefaultColor.defaultGrey,
+                  ),
+                ),
+                const SizedBox(height: 5),
+                Text(
+                  "Stock: ${menu.stock}",
+                  style: const TextStyle(
+                    fontSize: 14,
+                  ),
+                ),
+                const SizedBox(height: 10),
+                Text(
+                  "Rp${menu.price}",
+                  style: const TextStyle(
+                    fontSize: 16,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+                const SizedBox(height: 15),
+                Row(
+                  children: [
+                    IconButton(
+                        onPressed: () {
+                          vm.incrementCarts(menu.id);
+                          setState(() {
+                            qty = vm.carts[menu.id];
+                          });
+                        },
+                        icon: const Icon(Icons.add)),
+                    Text(
+                      "$qty",
+                      key: Key(menu.id),
+                    ),
+                    IconButton(
+                      onPressed: () {
+                        vm.decrementCarts(menu.id);
+                        setState(() {
+                          qty = vm.carts[menu.id];
+                        });
+                      },
+                      icon: const Icon(Icons.remove),
+                    ),
+                  ],
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: [
+                    ElevatedButton(
+                      onPressed: () {
+                        Navigator.pop(context);
+                      },
+                      child: const Text("Add To Cart"),
+                    ),
+                    const SizedBox(width: 5),
+                    ElevatedButton(
+                      style: ElevatedButton.styleFrom(
+                        primary: Colors.grey,
+                      ),
+                      onPressed: () {
+                        Navigator.pop(context);
+                      },
+                      child: const Text("Cancel"),
+                    ),
+                  ],
+                ),
+              ],
+            ),
+          );
+        });
   }
 }

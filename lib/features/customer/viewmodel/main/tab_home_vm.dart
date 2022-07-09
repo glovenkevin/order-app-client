@@ -13,10 +13,12 @@ class TabHomeViewModel extends ChangeNotifier {
     "https://wallpaperaccess.com/full/2637581.jpg"
   ];
   List<Menu> _menus = [];
+  final Map<String, int> _carts = {};
 
   int get bannerIndex => _bannerIndex;
   List<String> get images => _images;
   List<Menu> get menus => _menus;
+  Map<String, int> get carts => _carts;
 
   void setBannerIndex(int index) {
     _bannerIndex = index;
@@ -33,8 +35,34 @@ class TabHomeViewModel extends ChangeNotifier {
     notifyListeners();
   }
 
+  void setCarts(String key, int quantity) {
+    _carts[key] = quantity;
+    notifyListeners();
+  }
+
+  void incrementCarts(String key) {
+    if (_carts[key] != null) {
+      var qty = _carts[key]!;
+      _carts[key] = qty + 1;
+      notifyListeners();
+    }
+  }
+
+  void decrementCarts(String key) {
+    if (_carts[key] != null && _carts[key] != 1) {
+      var qty = _carts[key]!;
+      _carts[key] = qty - 1;
+      notifyListeners();
+    }
+  }
+
   Future<void> retrieveMenues() async {
     var menues = await _useCase.getMenues(GetMenuRequest());
+    for (var element in menues) {
+      {
+        _carts[element.id] = 1;
+      }
+    }
     setMenus(menues);
   }
 }

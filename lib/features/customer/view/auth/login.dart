@@ -92,7 +92,7 @@ class LoginPageState extends State<LoginPage> {
                     const Divider(
                       color: AppDefaultColor.defaultYellow,
                       thickness: 5,
-                      endIndent: 280,
+                      endIndent: 250,
                     ),
                     const SizedBox(height: 25),
                     Row(
