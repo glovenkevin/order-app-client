@@ -10,6 +10,7 @@ import 'package:order_app_client/features/customer/domain/usecase/home.dart';
 import 'package:order_app_client/features/customer/domain/usecase/login.dart';
 import 'package:order_app_client/features/customer/domain/usecase/register.dart';
 import 'package:order_app_client/infrastructure/firebase/remote_config.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import '../firebase/firebase.dart';
 
@@ -30,4 +31,8 @@ Future<void> configureDependencies() async {
   getIt.registerSingleton<FirebaseRemoteConfig>(
       await RemoteConfigHelper.getInstance());
   getIt.registerSingleton<FirebaseMessaging>(FirebaseMessaging.instance);
+
+  // Miscellanious -.
+  getIt.registerSingleton<SharedPreferences>(
+      await SharedPreferences.getInstance());
 }

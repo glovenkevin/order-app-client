@@ -1,11 +1,31 @@
 import 'package:flutter/material.dart';
 import 'package:order_app_client/features/customer/resources/color/base_color.dart';
+import 'package:order_app_client/features/customer/viewmodel/landing/landing_vm.dart';
+import 'package:provider/provider.dart';
 
-class LandingPage extends StatelessWidget {
+class LandingPage extends StatefulWidget {
   const LandingPage({Key? key}) : super(key: key);
 
   @override
+  State<StatefulWidget> createState() => LandingPageState();
+}
+
+class LandingPageState extends State<LandingPage> {
+  late LandingViewModel vm;
+
+  @override
+  void initState() {
+    super.initState();
+
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      vm.checkIsAlreadyLogIn(context);
+    });
+  }
+
+  @override
   Widget build(BuildContext context) {
+    vm = Provider.of<LandingViewModel>(context);
+
     return Scaffold(
       body: Container(
         padding: const EdgeInsets.only(top: 110, left: 25, right: 25),
