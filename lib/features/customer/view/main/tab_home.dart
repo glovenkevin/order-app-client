@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:order_app_client/component/custom_app_bar_main.dart';
 import 'package:order_app_client/features/customer/domain/entity/menu.dart';
 import 'package:order_app_client/features/customer/resources/color/base_color.dart';
+import 'package:order_app_client/features/customer/view/main/component/menu_bottom_modal.dart';
 import 'package:order_app_client/features/customer/viewmodel/main/tab_home_vm.dart';
 import 'package:provider/provider.dart';
 
@@ -189,90 +190,9 @@ class HomeTabState extends State<HomeTab> {
     showModalBottomSheet(
         context: context,
         builder: (BuildContext context) {
-          var qty = vm.carts[menu.id];
-
-          return Container(
-            padding: const EdgeInsets.all(10),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(menu.name,
-                    style: const TextStyle(
-                      fontSize: 18,
-                      fontWeight: FontWeight.bold,
-                    )),
-                const SizedBox(height: 5),
-                Text(
-                  menu.description,
-                  style: const TextStyle(
-                    fontSize: 12,
-                    color: AppDefaultColor.defaultGrey,
-                  ),
-                ),
-                const SizedBox(height: 5),
-                Text(
-                  "Stock: ${menu.stock}",
-                  style: const TextStyle(
-                    fontSize: 14,
-                  ),
-                ),
-                const SizedBox(height: 10),
-                Text(
-                  "Rp${menu.price}",
-                  style: const TextStyle(
-                    fontSize: 16,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-                const SizedBox(height: 15),
-                Row(
-                  children: [
-                    IconButton(
-                        onPressed: () {
-                          vm.incrementCarts(menu.id);
-                          setState(() {
-                            qty = vm.carts[menu.id];
-                          });
-                        },
-                        icon: const Icon(Icons.add)),
-                    Text(
-                      "$qty",
-                      key: Key(menu.id),
-                    ),
-                    IconButton(
-                      onPressed: () {
-                        vm.decrementCarts(menu.id);
-                        setState(() {
-                          qty = vm.carts[menu.id];
-                        });
-                      },
-                      icon: const Icon(Icons.remove),
-                    ),
-                  ],
-                ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  children: [
-                    ElevatedButton(
-                      onPressed: () {
-                        Navigator.pop(context);
-                      },
-                      child: const Text("Add To Cart"),
-                    ),
-                    const SizedBox(width: 5),
-                    ElevatedButton(
-                      style: ElevatedButton.styleFrom(
-                        primary: Colors.grey,
-                      ),
-                      onPressed: () {
-                        Navigator.pop(context);
-                      },
-                      child: const Text("Cancel"),
-                    ),
-                  ],
-                ),
-              ],
-            ),
+          return DetailMenuBottomModal(
+            menu: menu,
+            vm: vm,
           );
         });
   }
