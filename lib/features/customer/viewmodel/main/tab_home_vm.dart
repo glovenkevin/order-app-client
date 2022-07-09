@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:order_app_client/features/customer/data/request/get_menu_request.dart';
+import 'package:order_app_client/features/customer/data/response/base_response.dart';
 import 'package:order_app_client/features/customer/domain/entity/menu.dart';
 import 'package:order_app_client/features/customer/domain/usecase/home.dart';
 import 'package:order_app_client/infrastructure/dependency_injection/injection.dart';
@@ -64,5 +65,9 @@ class TabHomeViewModel extends ChangeNotifier {
       }
     }
     setMenus(menues);
+  }
+
+  Future<BaseResponse> addToCarts(Menu menu) async {
+    return await _useCase.addMenuToCarts(menu, _carts[menu.id] ?? 1);
   }
 }

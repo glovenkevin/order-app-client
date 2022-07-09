@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
+import 'package:order_app_client/features/customer/data/response/base_response.dart';
 import 'package:order_app_client/features/customer/domain/entity/menu.dart';
 import 'package:order_app_client/features/customer/resources/color/base_color.dart';
 import 'package:order_app_client/features/customer/viewmodel/main/tab_home_vm.dart';
@@ -100,7 +102,21 @@ class DetailMenuBottomModalState extends State<DetailMenuBottomModal> {
             children: [
               ElevatedButton(
                 onPressed: () {
-                  Navigator.pop(context);
+                  widget.vm.addToCarts(widget.menu).then((value) {
+                    EasyLoading.showSuccess(value.message);
+                    Navigator.pop(context);
+                  }).catchError((err) {
+                    if (err is BaseResponse && err.statusCode == 401) {
+                      EasyLoading.showError(err.message);
+                      Future.delayed(
+                        const Duration(seconds: 1),
+                        () => Navigator.pushNamedAndRemoveUntil(
+                            context, "/", (route) => false),
+                      );
+                      return;
+                    }
+                    EasyLoading.showError("Fail to save data");
+                  });
                 },
                 child: const Text("Add To Cart"),
               ),

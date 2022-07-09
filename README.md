@@ -21,3 +21,8 @@ samples, guidance on mobile development, and a full API reference.
 1. Prepare android emulator
 2. Prepare firebase project and set it up with the firebase key
 3. Make sure `firebase_options.dart` exist in /lib folder
+
+## On Progress Item
+
+1. Add caching in client side using `Cache-Control` tag and `Last-Modified` in header
+2. Admin Page 
