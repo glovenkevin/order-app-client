@@ -1,6 +1,9 @@
+import 'dart:convert';
+
 import 'package:firebase_database/firebase_database.dart';
 import 'package:order_app_client/features/customer/data/request/get_menu_request.dart';
 import 'package:order_app_client/features/customer/data/response/base_response.dart';
+import 'package:order_app_client/features/customer/domain/entity/cart.dart';
 import 'package:order_app_client/features/customer/domain/entity/menu.dart';
 import 'package:order_app_client/features/customer/domain/repository/menu_repo.dart';
 import 'package:order_app_client/infrastructure/dependency_injection/injection.dart';
@@ -29,15 +32,33 @@ class HomeUseCase {
     }
 
     DatabaseReference dbReference = _firebaseDatabase.ref("users/$userId");
-    await dbReference.set({
-      "carts": [
-        {
-          "menu_id": menu.id,
-          "desc": menu.description,
-          "quantity": quantity,
+    DataSnapshot snapshot = await dbReference.child("carts").get();
+    List<Cart> carts = [];
+    bool cartItemIsExist = false;
+    if (snapshot.exists && snapshot.value != null) {
+      var values = snapshot.value as List;
+      for (var element in values) {
+        var cart = Cart(
+            menuId: element['menu_id'],
+            desc: element['desc'],
+            quantity: element['quantity'] as int);
+
+        if (cart.menuId == menu.id) {
+          cart.quantity = quantity;
+          cartItemIsExist = true;
         }
-      ],
-    });
+
+        carts.add(cart);
+      }
+    }
+
+    if (!cartItemIsExist) {
+      carts.add(
+          Cart(menuId: menu.id, desc: menu.description, quantity: quantity));
+    }
+
+    var data = {'carts': jsonDecode(jsonEncode(carts))};
+    await dbReference.set(data);
 
     return BaseResponse(
       message: "Success add item to cart",
