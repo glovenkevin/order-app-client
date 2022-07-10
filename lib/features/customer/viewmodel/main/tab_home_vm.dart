@@ -59,10 +59,8 @@ class TabHomeViewModel extends ChangeNotifier {
 
   Future<void> retrieveMenues() async {
     var menues = await _useCase.getMenues(GetMenuRequest());
-    for (var element in menues) {
-      {
-        _carts[element.id] = 1;
-      }
+    for (var menu in menues) {
+      _carts[menu.id] = menu.quantity;
     }
     setMenus(menues);
   }

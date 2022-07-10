@@ -5,6 +5,7 @@ class Menu {
   int stock;
   String description;
   String imageUrl;
+  int quantity = 1;
 
   Menu({
     required this.id,
@@ -13,6 +14,7 @@ class Menu {
     required this.description,
     required this.imageUrl,
     required this.stock,
+    this.quantity = 1,
   });
 
   factory Menu.fromJson(Map<String, dynamic> json) {
