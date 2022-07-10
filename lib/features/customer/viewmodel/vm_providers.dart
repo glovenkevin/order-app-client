@@ -2,6 +2,7 @@ import 'package:order_app_client/features/customer/viewmodel/auth/login_vm.dart'
 import 'package:order_app_client/features/customer/viewmodel/auth/register_vm.dart';
 import 'package:order_app_client/features/customer/viewmodel/landing/landing_vm.dart';
 import 'package:order_app_client/features/customer/viewmodel/main/tab_home_vm.dart';
+import 'package:order_app_client/features/customer/viewmodel/setting/setting_vm.dart';
 import 'package:provider/provider.dart';
 import 'package:provider/single_child_widget.dart';
 
@@ -18,6 +19,9 @@ class ViewModelProviders {
         ),
         ChangeNotifierProvider<LandingViewModel>(
           create: (_) => LandingViewModel(),
-        )
+        ),
+        ChangeNotifierProvider<SettingViewModel>(
+          create: (_) => SettingViewModel(),
+        ),
       ];
 }

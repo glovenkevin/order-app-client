@@ -3,9 +3,12 @@ import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:order_app_client/features/customer/resources/color/base_color.dart';
 
 class CustomAppBarMain extends StatelessWidget implements PreferredSizeWidget {
-  const CustomAppBarMain(
-      {Key? key, required this.height, required this.fullName})
-      : super(key: key);
+  const CustomAppBarMain({
+    Key? key,
+    required this.height,
+    required this.fullName,
+  }) : super(key: key);
+
   final double height;
   final String fullName;
 
@@ -44,7 +47,7 @@ class CustomAppBarMain extends StatelessWidget implements PreferredSizeWidget {
             IconButton(
                 icon: const Icon(Icons.settings),
                 onPressed: () {
-                  EasyLoading.showInfo("Comming soon");
+                  Navigator.pushNamed(context, "/settings");
                 }),
           ],
         )
