@@ -24,18 +24,23 @@ class MyClientApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MultiProvider(
-      providers: ViewModelProviders.getProviders(),
-      child: MaterialApp(
-        title: 'Order App Client',
-        theme: ThemeData(
-          primarySwatch: Colors.blue,
-          fontFamily: 'OpenSans',
-        ),
-        home: const LandingPage(),
-        routes: Routes.getRoutes(),
-        builder: EasyLoading.init(),
-      ),
+    return FutureBuilder(
+      future: getIt.allReady(),
+      builder: (context, snapshot) {
+        return MultiProvider(
+          providers: ViewModelProviders.getProviders(),
+          child: MaterialApp(
+            title: 'Order App Client',
+            theme: ThemeData(
+              primarySwatch: Colors.blue,
+              fontFamily: 'OpenSans',
+            ),
+            home: const LandingPage(),
+            routes: Routes.getRoutes(),
+            builder: EasyLoading.init(),
+          ),
+        );
+      },
     );
   }
 }
